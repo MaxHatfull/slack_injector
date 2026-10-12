@@ -2,7 +2,11 @@
 set -u
 DIR="$(cd "$(dirname "$0")/.." && pwd)"
 PORT="${SLACK_CDP_PORT:-9222}"
-NODE="$(command -v node || echo "$HOME/.nvm/versions/node/v24.12.0/bin/node")"
+
+if ! NODE="$(command -v node)"; then
+  echo "node not found on PATH. Install Node 22 or newer." >&2
+  exit 1
+fi
 
 if pgrep -q -f "Slack.app/Contents/MacOS/Slack"; then
   if ! curl -s "localhost:$PORT/json/version" >/dev/null; then
