@@ -1,1 +1,7 @@
 .sk-client-theme--dark .p-rich_text_block { color: var(--dt_color-content-pry); }
+
+/* Beef up the vertical dividers: rail -> sidebar (none by default) and sidebar -> main (30% grey by default). */
+.sk-client-theme--dark .p-ia4_client .p-view_contents--sidebar,
+.sk-client-theme--dark .p-ia4_client .p-tab_rail {
+  border-right: 2px solid rgba(255, 255, 255, 0.55);
+}
