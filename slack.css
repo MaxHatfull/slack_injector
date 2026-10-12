@@ -1,87 +1,89 @@
+/* High-contrast tweaks for the Slack desktop app, dark theme. See README for how this is injected. */
+
+/* ---------------------------------------------------------------------------------------------------------------
+   Outline tokens. Slack defines three tiers on .sk-client-theme--dark: otl-pry #797c81, otl-sec at 50%, otl-ter at
+   30%. Around 2900 rules consume them (ter alone ~2200), so redefining them reaches every border Slack draws with
+   them. The rules below point the surfaces Slack draws some other way (foreground_low rings, hashed classes, inset
+   shadows) at the same tiers, so everything is tuned from these three lines.
+     pry: floating surfaces (popups, menus, tooltips, modals, the composer)
+     sec: structure (thread cards, tab bar line, menu separators, outline buttons)
+     ter: in-content dividers (the day separator)
+   --------------------------------------------------------------------------------------------------------------- */
+.sk-client-theme--dark {
+  /* To see which tier an edge uses, set these to e.g. red / green / cyan temporarily. */
+  --dt_color-otl-pry: rgba(255, 255, 255, 1);
+  --dt_color-otl-sec: rgba(255, 255, 255, 0.9);
+  --dt_color-otl-ter: rgba(255, 255, 255, 0.8);
+}
+
+/* Message text: Slack renders bodies in --sk_primary_foreground (209,210,211), greyer than sender names. */
 .sk-client-theme--dark .p-rich_text_block { color: var(--dt_color-content-pry); }
 
-/* Beef up the vertical dividers: rail -> sidebar (none by default) and sidebar -> main (30% grey by default). */
-.sk-client-theme--dark .p-ia4_client .p-view_contents--sidebar,
-.sk-client-theme--dark .p-ia4_client .p-tab_rail {
-  border-right: 2px solid rgba(255, 255, 255, 0.55);
-}
-/* Thread / details panel on the right: same faint tertiary outline on its left edge. */
-.sk-client-theme--dark .p-ia4_client .p-view_contents--secondary {
-  border-left: 2px solid rgba(255, 255, 255, 0.55);
-}
-
-/* Day divider ("Today", "Thursday, 8 October") in the message list: the line is --sk_foreground_low_solid (53,55,59) on a
-   (26,29,33) background, and the date pill has a 13% ring. Match the vertical dividers. */
-.sk-client-theme--dark .p-threads_view__divider_line /* "You're up to date" in Threads */ {
-  border-top: 2px solid rgba(255, 255, 255, 0.55);
-}
-/* The day divider sits among the messages, so it is a touch dimmer than the structural dividers. */
+/* Day divider ("Today", ...) in the message list: a line in --sk_foreground_low_solid (53,55,59) on a (26,29,33)
+   background, plus a 13% ring on the date pill. Tertiary tier: it sits among the messages. */
 .sk-client-theme--dark .c-message_list__day_divider__line {
-  border-top: 2px solid rgba(255, 255, 255, 0.4);
+  border-top: 2px solid var(--dt_color-otl-ter);
 }
 .sk-client-theme--dark .c-message_list__day_divider__label__pill {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4), 0 1px 3px 0 #00000014;
+  box-shadow: 0 0 0 1px var(--dt_color-otl-ter), 0 1px 3px 0 #00000014;
+}
+
+/* "You're up to date" line in the Threads view: same solid token. */
+.sk-client-theme--dark .p-threads_view__divider_line {
+  border-top: 2px solid var(--dt_color-otl-sec);
 }
 
 /* Thread cards in the Threads view are three stacked rows (root, replies, reply box) sharing one outline in
-   --sk_foreground_low_solid (53,55,59). Zero-width sides stay off; only the colour changes. */
+   --sk_foreground_low_solid. Zero-width sides stay off; only the colour changes. */
 .sk-client-theme--dark .p-threads_view_root,
 .sk-client-theme--dark .p-threads_view_reply,
 .sk-client-theme--dark .p-threads_view__footer {
-  border-color: rgba(255, 255, 255, 0.55);
+  border-color: var(--dt_color-otl-sec);
 }
 
 /* Channel tab bar ("Messages", "Add canvas", ...): the line under it is an inset shadow in (53,55,59). The class is
-   a hashed CSS-modules name, so match the prefix. The active tab's own accent underline is a child and unaffected. */
+   a hashed CSS-modules name, so match the prefix. */
 .sk-client-theme--dark [class*="channel_tab_bar__"] {
-  box-shadow: inset 0 -2px 0 0 rgba(255, 255, 255, 0.55);
+  box-shadow: inset 0 -2px 0 0 var(--dt_color-otl-sec);
 }
-/* The active tab's accent underline is 2px, the same as the bar line above, so thicken it to stand out. */
+/* The active tab's accent underline was 2px, the same as the bar line, so thicken it to stand out. */
 .sk-client-theme--dark [class*="channel_tab_bar__"] .c-tabs__tab--active {
   box-shadow: inset 0 -4px 0 0 var(--dt_color-theme-base-pry, var(--dt_color-otl-hgl-1));
 }
 
-/* Top nav (back/forward, search): no bottom edge at all by default. Inset shadow rather than a border so the
-   workspace below does not shift down. */
-.sk-client-theme--dark .p-ia4_top_nav {
-  box-shadow: inset 0 -2px 0 0 rgba(255, 255, 255, 0.55);
-}
-
-/* Cmd+K search popover: the panel is a classless div whose outline is a 1px 13% ring in its box-shadow. Keep
-   Slack's drop shadow, brighten the ring. */
+/* Floating surfaces. Slack draws them all the same way: a 1px ring at 13% of --sk_foreground_low as the first
+   box-shadow layer, then a drop shadow. Brighten the ring, keep a drop shadow of roughly Slack's size per group. */
+/* Cmd+K search popover: a classless panel div */
 .sk-client-theme--dark .c-search_modal .c-popover__content > div {
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55), 0 4px 12px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0 0 2px var(--dt_color-otl-pry), 0 4px 12px 0 rgba(0, 0, 0, 0.12);
 }
-
-/* Popups. Slack draws every floating surface the same way: a 1px ring at 13% as the first box-shadow layer, then a
-   drop shadow. Brighten the ring, keep a drop shadow of roughly Slack's own size per group. */
 /* small: message hover action bars */
 .sk-client-theme--dark .c-message_actions__group,
 .sk-client-theme--dark .p-activity_ia4_page__item__actions {
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+  box-shadow: 0 0 0 2px var(--dt_color-otl-pry), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
 }
 /* medium: context menus, the profile card on hovering a name / avatar / @mention */
 .sk-client-theme--dark .c-menu,
 .sk-client-theme--dark .p-member_profile_card,
 .sk-client-theme--dark .p-member_profile_hover_card__container {
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55), 0 4px 12px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0 0 2px var(--dt_color-otl-pry), 0 4px 12px 0 rgba(0, 0, 0, 0.12);
 }
-/* large: peek cards, dialogs, coachmarks */
+/* large: peek cards, coachmarks, modals, dialogs */
 .sk-client-theme--dark .p-peek_card--as-card,
-.sk-client-theme--dark .c-dialog__content,
-.sk-client-theme--dark .c-sk-modal,
 .sk-client-theme--dark .c-coachmark,
-.sk-client-theme--dark .c-coachmarkv2 {
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55), 0 18px 48px 0 rgba(0, 0, 0, 0.35);
+.sk-client-theme--dark .c-coachmarkv2,
+.sk-client-theme--dark .c-sk-modal,
+.sk-client-theme--dark .c-dialog__content {
+  box-shadow: 0 0 0 2px var(--dt_color-otl-pry), 0 18px 48px 0 rgba(0, 0, 0, 0.35);
 }
-/* separators inside menus: same 13% token, keep Slack's 1px so items don't shift */
+/* Slack's elevation utilities (e.g. the link hover card): the same ring with a drop shadow per level */
+.sk-client-theme--dark .elevation_1 { box-shadow: 0 0 0 2px var(--dt_color-otl-pry); }
+.sk-client-theme--dark .elevation_2 { box-shadow: 0 0 0 2px var(--dt_color-otl-pry), 0 1px 3px 0 rgba(0, 0, 0, 0.08); }
+.sk-client-theme--dark .elevation_3 { box-shadow: 0 0 0 2px var(--dt_color-otl-pry), 0 4px 12px 0 rgba(0, 0, 0, 0.12); }
+.sk-client-theme--dark .elevation_4 { box-shadow: 0 0 0 2px var(--dt_color-otl-pry), 0 18px 48px 0 rgba(0, 0, 0, 0.35); }
+/* separators inside menus: keep Slack's 1px so items don't shift */
 .sk-client-theme--dark .c-menu_separator__separator {
-  border-top-color: rgba(255, 255, 255, 0.55);
-}
-
-/* Message composer: the toolbar, editor and footer share one container with a 1px --dt_color-otl-pry border. */
-.sk-client-theme--dark .p-message_input__input_container_unstyled.c-wysiwyg_container {
-  border: 2px solid rgba(255, 255, 255, 0.55);
+  border-top-color: var(--dt_color-otl-sec);
 }
 
 /* Plain tooltips have a rotated-square arrow as a child, which a box-shadow ring cannot follow. Slack outlines them in
@@ -89,27 +91,22 @@
    offset shadows make a crisp 2px outline instead of a blur. */
 .sk-client-theme--dark .c-tooltip__tip {
   box-shadow: none;
-  filter: drop-shadow(2px 0 0 rgba(255, 255, 255, 0.55)) drop-shadow(-2px 0 0 rgba(255, 255, 255, 0.55))
-          drop-shadow(0 2px 0 rgba(255, 255, 255, 0.55)) drop-shadow(0 -2px 0 rgba(255, 255, 255, 0.55));
+  filter: drop-shadow(2px 0 0 var(--dt_color-otl-pry)) drop-shadow(-2px 0 0 var(--dt_color-otl-pry))
+          drop-shadow(0 2px 0 var(--dt_color-otl-pry)) drop-shadow(0 -2px 0 var(--dt_color-otl-pry));
 }
 
-/* Slack's elevation utilities (used by e.g. the link hover card): the same 13% ring with a drop shadow per level. */
-.sk-client-theme--dark .elevation_1 { box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55); }
-.sk-client-theme--dark .elevation_2 { box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55), 0 1px 3px 0 rgba(0, 0, 0, 0.08); }
-.sk-client-theme--dark .elevation_3 { box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55), 0 4px 12px 0 rgba(0, 0, 0, 0.12); }
-.sk-client-theme--dark .elevation_4 { box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55), 0 18px 48px 0 rgba(0, 0, 0, 0.35); }
+/* Message composer: the toolbar, editor and footer share one container with a 1px otl-pry border. Thicken it. */
+.sk-client-theme--dark .p-message_input__input_container_unstyled.c-wysiwyg_container {
+  border: 2px solid var(--dt_color-otl-pry);
+}
 
-/* Buttons: outline variants use --dt_color-otl-sec (50% grey) / otl-ter (30%). Softer than the structural dividers
-   so they don't compete with them. Filled primary / danger buttons have no border and don't need one. The channel header's
+/* Buttons: outline variants use otl-sec / otl-ter at 1px. Thicker, plus a lighter fill. Slack's hover fill
+   (--dt_color-base-sec) is the page colour in dark mode, which would read as darker on hover, so hover and pressed
+   get their own steps up. Filled primary / danger buttons have no border and don't need one. The channel header's
    notification bell is an outline button Slack deliberately strips, so leave it as is. */
 .sk-client-theme--dark .c-button--outline:not(.p-view_header_notifications_action_button--polish),
 .sk-client-theme--dark .c-icon_button--outline {
-  border: 3px solid rgba(255, 255, 255, 0.45);
-}
-/* and a lighter fill. Slack's hover fill (--dt_color-base-sec) is the page colour in dark mode, which would now read
-   as darker on hover, so give hover and pressed their own steps up from the resting fill. */
-.sk-client-theme--dark .c-button--outline:not(.p-view_header_notifications_action_button--polish),
-.sk-client-theme--dark .c-icon_button--outline {
+  border: 3px solid var(--dt_color-otl-sec);
   background-color: rgba(255, 255, 255, 0.1);
 }
 .sk-client-theme--dark .c-button--outline:not(.p-view_header_notifications_action_button--polish):hover,
