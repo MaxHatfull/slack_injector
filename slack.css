@@ -12,12 +12,15 @@
 
 /* Day divider ("Today", "Thursday, 8 October") in the message list: the line is --sk_foreground_low_solid (53,55,59) on a
    (26,29,33) background, and the date pill has a 13% ring. Match the vertical dividers. */
-.sk-client-theme--dark .c-message_list__day_divider__line,
 .sk-client-theme--dark .p-threads_view__divider_line /* "You're up to date" in Threads */ {
   border-top: 2px solid rgba(255, 255, 255, 0.55);
 }
+/* The day divider sits among the messages, so it is a touch dimmer than the structural dividers. */
+.sk-client-theme--dark .c-message_list__day_divider__line {
+  border-top: 2px solid rgba(255, 255, 255, 0.4);
+}
 .sk-client-theme--dark .c-message_list__day_divider__label__pill {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.55), 0 1px 3px 0 #00000014;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4), 0 1px 3px 0 #00000014;
 }
 
 /* Thread cards in the Threads view are three stacked rows (root, replies, reply box) sharing one outline in
