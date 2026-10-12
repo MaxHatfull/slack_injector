@@ -14,11 +14,10 @@ Put whatever CSS you want in `slack.css`. The bundled example fixes a dark-theme
 ```sh
 git clone https://github.com/MaxHatfull/slack_injector.git
 cd slack_injector
-echo "alias slack=\"$PWD/bin/slack\"" >> ~/.zshrc
-source ~/.zshrc
+bin/install
 ```
 
-Any name works for the alias. If you already have a `slack` command on your `PATH` (the Slack CLI, a gem shim, etc.) the alias shadows it; `command slack` still reaches the original.
+This appends an alias to your `~/.zshrc` or `~/.bashrc` pointing `slack` at `bin/slack`. Pass a different name to use another alias, e.g. `bin/install slackcss`. If you already have a `slack` command on your `PATH` (the Slack CLI, a gem shim, etc.) the alias shadows it; `command slack` still reaches the original.
 
 ## Use
 

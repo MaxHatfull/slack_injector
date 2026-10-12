@@ -1,0 +1,23 @@
+#!/bin/sh
+# Adds a `slack` alias pointing at bin/slack to your shell rc file.
+set -eu
+DIR="$(cd "$(dirname "$0")/.." && pwd)"
+ALIAS_NAME="${1:-slack}"
+LINE="alias $ALIAS_NAME=\"$DIR/bin/slack\""
+
+case "$(basename "${SHELL:-/bin/sh}")" in
+  zsh)  RC="$HOME/.zshrc" ;;
+  bash) RC="$HOME/.bashrc" ;;
+  *)    echo "Unsupported shell. Add this line to your shell rc file:" >&2
+        echo "  $LINE" >&2
+        exit 1 ;;
+esac
+
+if [ -f "$RC" ] && grep -qxF "$LINE" "$RC"; then
+  echo "alias already present in $RC"
+else
+  printf '\n%s\n' "$LINE" >> "$RC"
+  echo "added to $RC:"
+  echo "  $LINE"
+fi
+echo "Run 'source $RC' or open a new terminal, then run '$ALIAS_NAME'."
