@@ -1,0 +1,22 @@
+#!/bin/zsh
+set -u
+DIR="$(cd "$(dirname "$0")/.." && pwd)"
+PORT="${SLACK_CDP_PORT:-9222}"
+NODE="$(command -v node || echo "$HOME/.nvm/versions/node/v24.12.0/bin/node")"
+
+if pgrep -q -f "Slack.app/Contents/MacOS/Slack"; then
+  if ! curl -s "localhost:$PORT/json/version" >/dev/null; then
+    echo "Slack is running without a debugging port. Quit Slack and run slack again." >&2
+    exit 1
+  fi
+else
+  open -a Slack --args --remote-debugging-port="$PORT"
+fi
+
+if pgrep -q -f "$DIR/inject.mjs"; then
+  echo "injector already running (log: $DIR/inject.log)"
+else
+  nohup "$NODE" "$DIR/inject.mjs" >> "$DIR/inject.log" 2>&1 &
+  disown
+  echo "injector started (log: $DIR/inject.log)"
+fi
