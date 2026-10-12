@@ -8,7 +8,8 @@
 
 /* Day divider ("Today", "Thursday, 8 October") in the message list: the line is --sk_foreground_low_solid (53,55,59) on a
    (26,29,33) background, and the date pill has a 13% ring. Match the vertical dividers. */
-.sk-client-theme--dark .c-message_list__day_divider__line {
+.sk-client-theme--dark .c-message_list__day_divider__line,
+.sk-client-theme--dark .p-threads_view__divider_line /* "You're up to date" in Threads */ {
   border-top: 2px solid rgba(255, 255, 255, 0.55);
 }
 .sk-client-theme--dark .c-message_list__day_divider__label__pill {
