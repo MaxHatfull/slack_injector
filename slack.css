@@ -98,3 +98,25 @@
 .sk-client-theme--dark .elevation_2 { box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55), 0 1px 3px 0 rgba(0, 0, 0, 0.08); }
 .sk-client-theme--dark .elevation_3 { box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55), 0 4px 12px 0 rgba(0, 0, 0, 0.12); }
 .sk-client-theme--dark .elevation_4 { box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55), 0 18px 48px 0 rgba(0, 0, 0, 0.35); }
+
+/* Buttons: outline variants use --dt_color-otl-sec (50% grey) / otl-ter (30%). Softer than the structural dividers
+   so they don't compete with them. Filled primary / danger buttons have no border and don't need one. The channel header's
+   notification bell is an outline button Slack deliberately strips, so leave it as is. */
+.sk-client-theme--dark .c-button--outline:not(.p-view_header_notifications_action_button--polish),
+.sk-client-theme--dark .c-icon_button--outline {
+  border: 3px solid rgba(255, 255, 255, 0.45);
+}
+/* and a lighter fill. Slack's hover fill (--dt_color-base-sec) is the page colour in dark mode, which would now read
+   as darker on hover, so give hover and pressed their own steps up from the resting fill. */
+.sk-client-theme--dark .c-button--outline:not(.p-view_header_notifications_action_button--polish),
+.sk-client-theme--dark .c-icon_button--outline {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.sk-client-theme--dark .c-button--outline:not(.p-view_header_notifications_action_button--polish):hover,
+.sk-client-theme--dark .c-icon_button--outline:hover {
+  background-color: rgba(255, 255, 255, 0.16);
+}
+.sk-client-theme--dark .c-button--outline:not(.p-view_header_notifications_action_button--polish):active,
+.sk-client-theme--dark .c-icon_button--outline:active {
+  background-color: rgba(255, 255, 255, 0.22);
+}
