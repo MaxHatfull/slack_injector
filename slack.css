@@ -57,11 +57,10 @@
 .sk-client-theme--dark .p-activity_ia4_page__item__actions {
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
 }
-/* medium: context menus, the profile card on hovering a name / avatar / @mention, plain tooltips */
+/* medium: context menus, the profile card on hovering a name / avatar / @mention */
 .sk-client-theme--dark .c-menu,
 .sk-client-theme--dark .p-member_profile_card,
-.sk-client-theme--dark .p-member_profile_hover_card__container,
-.sk-client-theme--dark .c-tooltip__tip {
+.sk-client-theme--dark .p-member_profile_hover_card__container {
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55), 0 4px 12px 0 rgba(0, 0, 0, 0.12);
 }
 /* large: peek cards, dialogs, coachmarks */
@@ -80,4 +79,13 @@
 /* Message composer: the toolbar, editor and footer share one container with a 1px --dt_color-otl-pry border. */
 .sk-client-theme--dark .p-message_input__input_container_unstyled.c-wysiwyg_container {
   border: 2px solid rgba(255, 255, 255, 0.55);
+}
+
+/* Plain tooltips have a rotated-square arrow as a child, which a box-shadow ring cannot follow. Slack outlines them in
+   dark mode with filter: drop-shadow(0 0 1px otl-pry); a filter traces the whole silhouette, arrow included. Four
+   offset shadows make a crisp 2px outline instead of a blur. */
+.sk-client-theme--dark .c-tooltip__tip {
+  box-shadow: none;
+  filter: drop-shadow(2px 0 0 rgba(255, 255, 255, 0.55)) drop-shadow(-2px 0 0 rgba(255, 255, 255, 0.55))
+          drop-shadow(0 2px 0 rgba(255, 255, 255, 0.55)) drop-shadow(0 -2px 0 rgba(255, 255, 255, 0.55));
 }
