@@ -15,3 +15,11 @@
 .sk-client-theme--dark .c-message_list__day_divider__label__pill {
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.55), 0 1px 3px 0 #00000014;
 }
+
+/* Thread cards in the Threads view are three stacked rows (root, replies, reply box) sharing one outline in
+   --sk_foreground_low_solid (53,55,59). Zero-width sides stay off; only the colour changes. */
+.sk-client-theme--dark .p-threads_view_root,
+.sk-client-theme--dark .p-threads_view_reply,
+.sk-client-theme--dark .p-threads_view__footer {
+  border-color: rgba(255, 255, 255, 0.55);
+}
