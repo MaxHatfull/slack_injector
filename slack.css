@@ -16,6 +16,19 @@
   --dt_color-otl-ter: rgba(255, 255, 255, 0.8);
 }
 
+/* Text tokens. Slack's dark theme sets content-sec #b9babd (73% grey) and content-ter #9a9b9e (61%); ~2000 rules
+   use each, for timestamps, metadata, placeholders and hints. */
+.sk-client-theme--dark {
+  /* Primary text is #f8f8f8; keep a visible step down per tier. To see which tier a piece of text uses, set these
+     to e.g. red / green / blue / magenta temporarily. */
+  --dt_color-content-sec: #dcdde0;
+  --dt_color-content-ter: #c4c5c8;
+  /* Legacy rgb-triple tokens that still feed e.g. timestamps (max_solid, was 171,171,173) and dimmer hints
+     (high_solid, was 129,131,133). */
+  --sk_foreground_max_solid: 222, 223, 225;
+  --sk_foreground_high_solid: 175, 176, 178;
+}
+
 /* Message text: Slack renders bodies in --sk_primary_foreground (209,210,211), greyer than sender names. */
 .sk-client-theme--dark .p-rich_text_block { color: var(--dt_color-content-pry); }
 
