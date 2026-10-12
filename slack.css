@@ -76,3 +76,8 @@
 .sk-client-theme--dark .c-menu_separator__separator {
   border-top-color: rgba(255, 255, 255, 0.55);
 }
+
+/* Message composer: the toolbar, editor and footer share one container with a 1px --dt_color-otl-pry border. */
+.sk-client-theme--dark .p-message_input__input_container_unstyled.c-wysiwyg_container {
+  border: 2px solid rgba(255, 255, 255, 0.55);
+}
