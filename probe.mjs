@@ -7,6 +7,7 @@ const expression = process.argv[2]
       const cs = el => el && getComputedStyle(el).color;
       return JSON.stringify({
         body: cs(document.querySelector('.p-rich_text_section')),
+        list: cs(document.querySelector('.p-rich_text_list li')),
         sender: cs(document.querySelector('.c-message__sender')),
         injected: !!document.getElementById('slack-contrast-css'),
       }, null, 1);
