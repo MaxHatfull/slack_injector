@@ -92,3 +92,9 @@
   filter: drop-shadow(2px 0 0 rgba(255, 255, 255, 0.55)) drop-shadow(-2px 0 0 rgba(255, 255, 255, 0.55))
           drop-shadow(0 2px 0 rgba(255, 255, 255, 0.55)) drop-shadow(0 -2px 0 rgba(255, 255, 255, 0.55));
 }
+
+/* Slack's elevation utilities (used by e.g. the link hover card): the same 13% ring with a drop shadow per level. */
+.sk-client-theme--dark .elevation_1 { box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55); }
+.sk-client-theme--dark .elevation_2 { box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55), 0 1px 3px 0 rgba(0, 0, 0, 0.08); }
+.sk-client-theme--dark .elevation_3 { box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55), 0 4px 12px 0 rgba(0, 0, 0, 0.12); }
+.sk-client-theme--dark .elevation_4 { box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55), 0 18px 48px 0 rgba(0, 0, 0, 0.35); }
