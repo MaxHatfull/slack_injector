@@ -49,3 +49,30 @@
 .sk-client-theme--dark .c-search_modal .c-popover__content > div {
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55), 0 4px 12px 0 rgba(0, 0, 0, 0.12);
 }
+
+/* Popups. Slack draws every floating surface the same way: a 1px ring at 13% as the first box-shadow layer, then a
+   drop shadow. Brighten the ring, keep a drop shadow of roughly Slack's own size per group. */
+/* small: message hover action bars */
+.sk-client-theme--dark .c-message_actions__group,
+.sk-client-theme--dark .p-activity_ia4_page__item__actions {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+}
+/* medium: context menus, the profile card on hovering a name / avatar / @mention, plain tooltips */
+.sk-client-theme--dark .c-menu,
+.sk-client-theme--dark .p-member_profile_card,
+.sk-client-theme--dark .p-member_profile_hover_card__container,
+.sk-client-theme--dark .c-tooltip__tip {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55), 0 4px 12px 0 rgba(0, 0, 0, 0.12);
+}
+/* large: peek cards, dialogs, coachmarks */
+.sk-client-theme--dark .p-peek_card--as-card,
+.sk-client-theme--dark .c-dialog__content,
+.sk-client-theme--dark .c-sk-modal,
+.sk-client-theme--dark .c-coachmark,
+.sk-client-theme--dark .c-coachmarkv2 {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55), 0 18px 48px 0 rgba(0, 0, 0, 0.35);
+}
+/* separators inside menus: same 13% token, keep Slack's 1px so items don't shift */
+.sk-client-theme--dark .c-menu_separator__separator {
+  border-top-color: rgba(255, 255, 255, 0.55);
+}
