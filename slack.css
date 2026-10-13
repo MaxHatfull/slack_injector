@@ -29,6 +29,16 @@
   --sk_foreground_high_solid: 175, 176, 178;
 }
 
+/* Background tokens. Slack's dark theme: base-pry #1a1d21 (~1400 rules), base-sec #1a1d21 (~1100), base-ter #212428
+   (~650, raised surfaces), plus the legacy triple --sk_primary_background 26,29,33. */
+.sk-client-theme--dark {
+  /* To see which surface uses which token, paint these temporarily. */
+  --dt_color-base-pry: #15181c;          /* chrome (channel header, tab row, cards): a shade above the black page */
+  --dt_color-base-sec: #15181c;          /* same as base-pry; rarely visible */
+  --dt_color-base-ter: #212428;          /* Slack default; feeds some dividers and icon backgrounds */
+  --sk_primary_background: 0, 0, 0;      /* the page: pure black */
+}
+
 /* Message text: Slack renders bodies in --sk_primary_foreground (209,210,211), greyer than sender names. */
 .sk-client-theme--dark .p-rich_text_block { color: var(--dt_color-content-pry); }
 
