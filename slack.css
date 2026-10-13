@@ -152,3 +152,73 @@
 .sk-client-theme--dark .c-reaction_expand {
   box-shadow: 0 0 0 1px var(--dt_color-otl-ter);
 }
+
+/* Activity filter bar. Slack mixes three widgets on one row: "Unread messages" and "Filters" are refine chips
+   (1px otl-ter border, chrome fill), "Search" is a refine chip that is also an outline button (so it picked up the
+   3px treatment above), and the bulk-select box is a 1px otl-ter frame around a checkbox and an outline chevron
+   button. Give them all the outline-button look. Refine chips also appear on the search results page.
+   Selected / unsaved / disabled / coachmark-nudged chips keep Slack's own colours; the expanded search input is
+   not a button. */
+.sk-client-theme--dark .p-refine_button:not(.p-activity_ia4_page__filter_button--selected):not(.p-refine_button--unsaved):not(.c-button--disabled):not(.p-refine_button__nudge_active):not(.p-search_button--as-input) {
+  border: 3px solid var(--dt_color-otl-sec);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--dt_color-content-pry);
+}
+.sk-client-theme--dark .p-refine_button:not(.p-activity_ia4_page__filter_button--selected):not(.p-refine_button--unsaved):not(.c-button--disabled):not(.p-refine_button__nudge_active):not(.p-search_button--as-input):hover {
+  background-color: rgba(255, 255, 255, 0.16);
+}
+.sk-client-theme--dark .p-refine_button:not(.p-activity_ia4_page__filter_button--selected):not(.p-refine_button--unsaved):not(.c-button--disabled):not(.p-refine_button__nudge_active):not(.p-search_button--as-input):active,
+.sk-client-theme--dark .p-refine_button--open:not(.p-activity_ia4_page__filter_button--selected):not(.p-refine_button--unsaved):not(.c-button--disabled):not(.p-refine_button__nudge_active):not(.p-search_button--as-input) {
+  background-color: rgba(255, 255, 255, 0.22);
+}
+/* Bulk select: the frame carries the border and fill; the chevron button inside loses its own border (Slack sets
+   none, the generic outline rule above put one back) and keeps only a hover fill. The box is pinned to 32px, the
+   chips' height, and its two halves fill it instead of their own 30px. */
+.sk-client-theme--dark .p-activity_ia4_page__bulk_select_container {
+  box-sizing: border-box;
+  height: 32px;
+  border: 3px solid var(--dt_color-otl-sec);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.sk-client-theme--dark .p-activity_ia4_page__checkbox_container,
+.sk-client-theme--dark .c-button--outline.p-activity_ia4_page__bulk_select_menu_container {
+  height: 100%;
+}
+/* The checkbox's label is meant to be a centred flex box, but .c-label--block makes it display: block, and the
+   checkbox keeps the 12px right margin all .c-input_checkbox get, so it sits top-left of its cell. Centre it and
+   move the 12px into the label's padding so the box keeps its width. */
+.sk-client-theme--dark .p-activity_ia4_page__checkbox_container.c-label--block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+}
+.sk-client-theme--dark .p-activity_ia4_page__checkbox_container .p-activity_ia4_page__item__checkbox {
+  margin: 0;
+}
+.sk-client-theme--dark .c-button--outline.p-activity_ia4_page__bulk_select_menu_container {
+  border: none;
+  border-radius: 0 5px 5px 0;
+  background-color: transparent;
+}
+.sk-client-theme--dark .c-button--outline.p-activity_ia4_page__bulk_select_menu_container:hover {
+  background-color: rgba(255, 255, 255, 0.16);
+}
+.sk-client-theme--dark .c-button--outline.p-activity_ia4_page__bulk_select_menu_container:active {
+  background-color: rgba(255, 255, 255, 0.22);
+}
+.sk-client-theme--dark .p-activity_ia4_page__bulk_select_menu_container::before {
+  width: 2px;
+  background-color: var(--dt_color-otl-sec);
+}
+/* Detailed / Dense layout toggle: a segmented control whose sliding thumb has a 1px otl-sec border on a chrome fill.
+   Style the thumb like a chip and brighten the pressed icon (Slack leaves both icons content-ter). The classes are
+   hashed CSS-modules names, so match the prefix. */
+.sk-client-theme--dark [class*="activity_filter_layout_toggle__left__"],
+.sk-client-theme--dark [class*="activity_filter_layout_toggle__right__"] {
+  border: 3px solid var(--dt_color-otl-sec);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.sk-client-theme--dark [class*="activity_filter_layout_toggle__button__"][aria-pressed="true"] {
+  color: var(--dt_color-content-pry);
+}
