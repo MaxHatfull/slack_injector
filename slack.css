@@ -140,3 +140,15 @@
 .sk-client-theme--dark .c-icon_button--outline:active {
   background-color: rgba(255, 255, 255, 0.22);
 }
+
+/* Inline elements. Inline code and code blocks have a 1px ring at 13% of --sk_foreground_low; reaction pills have no
+   border at all, just a 6% surface. Quotes draw their bar from content-sec, already lifted above. */
+.sk-client-theme--dark .c-mrkdwn__code,
+.sk-client-theme--dark .c-mrkdwn__pre {
+  border-color: var(--dt_color-otl-ter);
+}
+.sk-client-theme--dark .c-reaction:not(.c-reaction--reacted),
+.sk-client-theme--dark .c-reaction_add,
+.sk-client-theme--dark .c-reaction_expand {
+  box-shadow: 0 0 0 1px var(--dt_color-otl-ter);
+}
