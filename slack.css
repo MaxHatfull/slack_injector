@@ -158,18 +158,30 @@
    3px treatment above), and the bulk-select box is a 1px otl-ter frame around a checkbox and an outline chevron
    button. Give them all the outline-button look. Refine chips also appear on the search results page.
    Selected / unsaved / disabled / coachmark-nudged chips keep Slack's own colours; the expanded search input is
-   not a button. */
-.sk-client-theme--dark .p-refine_button:not(.p-activity_ia4_page__filter_button--selected):not(.p-refine_button--unsaved):not(.c-button--disabled):not(.p-refine_button__nudge_active):not(.p-search_button--as-input) {
+   not a button. A quick filter that is on (--active) is restyled below. */
+.sk-client-theme--dark .p-refine_button:not(.p-activity_ia4_page__filter_button--selected):not(.p-activity_ia4_page__filter_bar--active):not(.p-refine_button--unsaved):not(.c-button--disabled):not(.p-refine_button__nudge_active):not(.p-search_button--as-input) {
   border: 3px solid var(--dt_color-otl-sec);
   background-color: rgba(255, 255, 255, 0.1);
   color: var(--dt_color-content-pry);
 }
-.sk-client-theme--dark .p-refine_button:not(.p-activity_ia4_page__filter_button--selected):not(.p-refine_button--unsaved):not(.c-button--disabled):not(.p-refine_button__nudge_active):not(.p-search_button--as-input):hover {
+.sk-client-theme--dark .p-refine_button:not(.p-activity_ia4_page__filter_button--selected):not(.p-activity_ia4_page__filter_bar--active):not(.p-refine_button--unsaved):not(.c-button--disabled):not(.p-refine_button__nudge_active):not(.p-search_button--as-input):hover {
   background-color: rgba(255, 255, 255, 0.16);
 }
-.sk-client-theme--dark .p-refine_button:not(.p-activity_ia4_page__filter_button--selected):not(.p-refine_button--unsaved):not(.c-button--disabled):not(.p-refine_button__nudge_active):not(.p-search_button--as-input):active,
-.sk-client-theme--dark .p-refine_button--open:not(.p-activity_ia4_page__filter_button--selected):not(.p-refine_button--unsaved):not(.c-button--disabled):not(.p-refine_button__nudge_active):not(.p-search_button--as-input) {
+.sk-client-theme--dark .p-refine_button:not(.p-activity_ia4_page__filter_button--selected):not(.p-activity_ia4_page__filter_bar--active):not(.p-refine_button--unsaved):not(.c-button--disabled):not(.p-refine_button__nudge_active):not(.p-search_button--as-input):active,
+.sk-client-theme--dark .p-refine_button--open:not(.p-activity_ia4_page__filter_button--selected):not(.p-activity_ia4_page__filter_bar--active):not(.p-refine_button--unsaved):not(.c-button--disabled):not(.p-refine_button__nudge_active):not(.p-search_button--as-input) {
   background-color: rgba(255, 255, 255, 0.22);
+}
+/* A quick filter that is on ("Unread messages", or "Filters" with one applied): Slack fills it dark green with mint
+   text, but its border is jade-10 (8,63,46), near-black, and hover flips it to blue. Keep the fill and text, draw the
+   3px border in the brighter green content token, and stay green on hover. */
+.sk-client-theme--dark .p-activity_ia4_page__filter_bar .p-activity_ia4_page__filter_bar--active,
+.sk-client-theme--dark .p-activity_ia4_page__filter_bar .p-activity_ia4_page__filter_bar--active:hover:not(.p-search_button--as-input) {
+  border: 3px solid var(--dt_color-content-hgl-2);
+  background-color: var(--dt_color-base-hgl-2);
+  color: rgb(var(--dt_color-plt-jade-80));
+}
+.sk-client-theme--dark .p-activity_ia4_page__filter_bar .p-activity_ia4_page__filter_bar--active:hover:not(.p-search_button--as-input) {
+  background-color: rgb(var(--dt_color-plt-jade-10));
 }
 /* Bulk select: the frame carries the border and fill; the chevron button inside loses its own border (Slack sets
    none, the generic outline rule above put one back) and keeps only a hover fill. The box is pinned to 32px, the
