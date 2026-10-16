@@ -51,6 +51,27 @@
   box-shadow: 0 0 0 1px var(--dt_color-otl-ter), 0 1px 3px 0 #00000014;
 }
 
+/* Unread ("New") divider in the message list: a 1px <hr> drawn as a repeating gradient in rgb(222,78,43), which the
+   --ghost modifier fades to 50% after 3s, and a 13px bold "New" label in the same red. Half-strength red on black is
+   a 2:1 hairline. Draw it 2px like the day divider, keep it opaque, and lift the red to ~6.7:1 on black. The label
+   is 2px line-height taller than the margin Slack gives it, so nothing else moves. Slack sets the dark-theme red
+   through a three-class --unread_threads selector and the injected sheet is not last in <head>, so the colour rules
+   repeat the leaf class to outrank it rather than rely on order. */
+.sk-client-theme--dark .c-message_list__unread_divider__separator {
+  height: 2px;
+  margin-bottom: -2px;
+  background-size: 10px 2px;
+}
+.sk-client-theme--dark .c-message_list__unread_divider--ghost .c-message_list__unread_divider__separator {
+  opacity: 1;
+}
+.sk-client-theme--dark .c-message_list__unread_divider .c-message_list__unread_divider__separator.c-message_list__unread_divider__separator {
+  background-image: linear-gradient(90deg, rgb(255, 90, 60) 0%, rgb(255, 90, 60) 100%);
+}
+.sk-client-theme--dark .c-message_list__unread_divider .c-message_list__unread_divider__label.c-message_list__unread_divider__label {
+  color: rgb(255, 90, 60);
+}
+
 /* "You're up to date" line in the Threads view: same solid token. */
 .sk-client-theme--dark .p-threads_view__divider_line {
   border-top: 2px solid var(--dt_color-otl-sec);
