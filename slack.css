@@ -72,6 +72,13 @@
   color: rgb(255, 90, 60);
 }
 
+/* Unread dot on the tab rail (Home, DMs, ...): the selected tab's dot is solid --dt_color-theme-base-imp, but every
+   other tab gets --dimmed, drawn in surf-inv-pry, a 25% white wash that all but vanishes on the rail. Those are the
+   tabs you need it for, so draw it solid too. */
+.sk-client-theme--dark .p-tab_rail__button .p-unread_dot--dimmed {
+  background-color: var(--dt_color-theme-base-imp);
+}
+
 /* "You're up to date" line in the Threads view: same solid token. */
 .sk-client-theme--dark .p-threads_view__divider_line {
   border-top: 2px solid var(--dt_color-otl-sec);
