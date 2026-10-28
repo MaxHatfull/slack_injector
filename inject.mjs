@@ -56,6 +56,7 @@ const run = async () => {
     if (m.method === 'Target.detachedFromTarget') attached.delete(m.params.sessionId);
   };
   await send('Target.setAutoAttach', { autoAttach: true, waitForDebuggerOnStart: true, flatten: true });
+  fs.unwatchFile(CSS_PATH);
   fs.watchFile(CSS_PATH, { interval: 1000 }, () => {
     log('slack.css changed, re-injecting');
     for (const s of attached) send('Runtime.evaluate', { expression: injector(css()) }, s).catch(() => {});

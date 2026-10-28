@@ -25,7 +25,9 @@ This appends an alias to your `~/.zshrc` or `~/.bashrc` pointing `slack` at `bin
 slack
 ```
 
-Launches Slack with `--remote-debugging-port=9222` and starts `inject.mjs` in the background. If Slack is already running without the port, quit it and run `slack` again. Always launch from the terminal, not the Dock, or there is no port to attach to.
+Launches Slack with `--remote-debugging-port=9222` and its own profile in `~/Library/Application Support/Slack-injector`, then starts `inject.mjs` in the background. If Slack is already running without the port, quit it and run `slack` again. Always launch from the terminal, not the Dock, or there is no port to attach to.
+
+Slack 4.53 and later refuse the debugging port on their default profile, hence the separate one. Sign in to your workspaces once the first time it opens. Set `SLACK_PROFILE_DIR` to use a different directory.
 
 Edit `slack.css` and the change is re-injected live. Logs go to `inject.log` in the repo directory.
 
@@ -34,7 +36,7 @@ Set `SLACK_CDP_PORT` to use a port other than 9222.
 ## How it works
 
 ```
-bin/slack ─► open -a Slack --remote-debugging-port=9222
+bin/slack ─► open -a Slack --remote-debugging-port=9222 --user-data-dir=…
      │
      └─► node inject.mjs ──ws──► Slack (Target.setAutoAttach)
                │                   │ every page/window/reload
