@@ -7,15 +7,20 @@ const STYLE_ID = 'slack-contrast-css';
 const log = (...a) => console.log(new Date().toISOString(), ...a);
 
 const injector = (css) => `(() => {
-  const css = ${JSON.stringify(css)};
+  window.__slackInjectorCss = ${JSON.stringify(css)};
+  // Stay the last child of <head>: Slack's sheets use the same selectors, so whichever comes later wins.
   const apply = () => {
-    if (!document.head) return false;
     let el = document.getElementById(${JSON.stringify(STYLE_ID)});
-    if (!el) { el = document.createElement('style'); el.id = ${JSON.stringify(STYLE_ID)}; document.head.appendChild(el); }
-    if (el.textContent !== css) el.textContent = css;
-    return true;
+    if (!el) { el = document.createElement('style'); el.id = ${JSON.stringify(STYLE_ID)}; }
+    if (el.textContent !== window.__slackInjectorCss) el.textContent = window.__slackInjectorCss;
+    if (document.head.lastElementChild !== el) document.head.appendChild(el);
   };
-  if (!apply()) new MutationObserver((_, o) => { if (apply()) o.disconnect(); }).observe(document.documentElement, { childList: true });
+  // Re-injecting only updates the CSS; one observer per document is enough.
+  if (window.__slackInjectorWatching) { if (document.head) apply(); return; }
+  window.__slackInjectorWatching = true;
+  const watchHead = () => { apply(); new MutationObserver(apply).observe(document.head, { childList: true }); };
+  if (document.head) watchHead();
+  else new MutationObserver((_, o) => { if (document.head) { o.disconnect(); watchHead(); } }).observe(document, { childList: true, subtree: true });
 })();`;
 
 const waitForPort = async () => {
@@ -35,10 +40,12 @@ const run = async () => {
     ws.send(JSON.stringify({ id: msgId, method, params, ...(sessionId ? { sessionId } : {}) }));
   });
   const css = () => fs.readFileSync(CSS_PATH, 'utf8');
-  const inject = async (sessionId, url) => {
+  const inject = async (sessionId, url, waiting) => {
     const expression = injector(css());
     await send('Page.enable', {}, sessionId);
     await send('Page.addScriptToEvaluateOnNewDocument', { source: expression }, sessionId);
+    // Resume only once the script is registered, or the page can load its document before it exists.
+    if (waiting) await send('Runtime.runIfWaitingForDebugger', {}, sessionId);
     await send('Runtime.evaluate', { expression }, sessionId);
     log('injected into', url);
   };
@@ -49,9 +56,8 @@ const run = async () => {
       const { sessionId, targetInfo } = m.params;
       if (targetInfo.type === 'page' && !attached.has(sessionId)) {
         attached.add(sessionId);
-        inject(sessionId, targetInfo.url).catch(err => log('inject failed', targetInfo.url, err.message));
-      }
-      if (m.params.waitingForDebugger) send('Runtime.runIfWaitingForDebugger', {}, sessionId).catch(() => {});
+        inject(sessionId, targetInfo.url, m.params.waitingForDebugger).catch(err => log('inject failed', targetInfo.url, err.message));
+      } else if (m.params.waitingForDebugger) send('Runtime.runIfWaitingForDebugger', {}, sessionId).catch(() => {});
     }
     if (m.method === 'Target.detachedFromTarget') attached.delete(m.params.sessionId);
   };
